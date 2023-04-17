@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA67CB"
+    android:background="@drawable/fondo_degradado"
     tools:context=".UsuarioFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,13 +13,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imagePerfil"
-            android:layout_width="147dp"
-            android:layout_height="159dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
-            android:src="@drawable/persona" />
+            android:src="@drawable/persona"
+            app:shapeAppearanceOverlay="@style/CircularImageView"/>
 
 
 
@@ -127,7 +128,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Email"/>
+            android:hint="Email"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/buser"

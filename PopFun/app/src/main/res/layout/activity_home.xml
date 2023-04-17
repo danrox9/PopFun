@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA67CB"
+    android:background="@drawable/fondo_degradado"
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
@@ -40,8 +40,9 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"/>
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        android:background="#4c3b4f"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

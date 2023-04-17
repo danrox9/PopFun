@@ -1,5 +1,6 @@
 package com.example.popfun;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popfun.models.FunkoEntity;
@@ -49,10 +53,18 @@ public class HomeFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        emailTV = view.findViewById(R.id.emailTextView);
         recyclerView = view.findViewById(R.id.recyclerView);
         TextoFunko = new ArrayList<>();
         FunkoImage = new ArrayList<>();
+        // Obtener la referencia a la actividad
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        // Obtener la referencia a la ActionBar
+        ActionBar actionBar = activity.getSupportActionBar();
+        // Crear el objeto Drawable a partir de la imagen en drawable
+        Drawable customBackground = getResources().getDrawable(R.drawable.fondo_degradado);
+        // Establecer el nuevo fondo personalizado
+        actionBar.setBackgroundDrawable(customBackground);
+
         setup();
     }
 
@@ -76,8 +88,13 @@ public class HomeFragment extends Fragment {
 
     public void lanzarAdaptador() {
         adapter = new Adapter(getContext(), funkoslist);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        //recyclerView.setLayoutManager(gridLayoutManager);
+        //recyclerView.setAdapter(adapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 }

@@ -2,6 +2,8 @@
 <resources>
     <color name="purple_200">#FFBB86FC</color>
     <color name="morado_fondo">#AA67CB</color>
+    <color name="morado2">#7D3C98</color>#5B2C6F
+    <color name="morado3">#5B2C6F</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>

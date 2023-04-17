@@ -2,18 +2,23 @@ package com.example.popfun;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -32,8 +37,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,24 +62,19 @@ public class UsuarioFragment extends Fragment {
     EditText lastname;
     EditText nickname;
     EditText email;
-
     TextView texto;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     StorageReference storageReference;
     String storage_path = "perfil/*";
 
     private static final int COD_SEL_STORAGE = 200;
     private static final int COD_SEL_IMAGE = 300;
-
     private Uri image_url;
     String photo ="photo";
     String idd;
 
-    //HomeActivity homeactivity = new HomeActivity();
-    //homeactivity.getUser();
+    HomeActivity homeactivity = new HomeActivity();
 
 
 
@@ -93,10 +97,17 @@ public class UsuarioFragment extends Fragment {
         lastname=view.findViewById(R.id.lastnameuser);
         nickname=view.findViewById(R.id.nicknameuser);
         email=view.findViewById(R.id.emailuser);
+        email.setEnabled(false);
         texto=view.findViewById(R.id.textView);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
+        Drawable customBackground = getResources().getDrawable(R.drawable.fondo_degradado,activity.getTheme());
+        actionBar.setBackgroundDrawable(customBackground);
 
         setup();
+        eliminar_foto();
         subir_foto();
+        subir_foto2();
         getUser();
         pintar_imagen_camara(view);
         pintar_imagen_basura(view);
@@ -105,8 +116,6 @@ public class UsuarioFragment extends Fragment {
     }
 
     public void setup() {
-
-
 
         // Obtener la referencia de la colección "usuarios" en Firestore
         CollectionReference usuariosRef = db.collection("users");
@@ -171,8 +180,52 @@ public class UsuarioFragment extends Fragment {
         });
 
     }
+
+
+    public void getUser(){
+        db.collection("users").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String photoUser = documentSnapshot.getString("photo");
+
+                try {
+                    if (!photoUser.equals("")){
+                        Picasso.with(getContext())
+                                .load(photoUser)
+                                .resize(150,150)
+                                .into(imgperfil);
+                    }
+                }catch (Exception e){
+                    Log.v("Error", "0: " + e);
+                }
+            }
+        });
+    }
+
+    public void eliminar_foto() {
+        borrarfoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DocumentReference usuariosPhotoRef = db.collection("users").document(userId);
+                usuariosPhotoRef.update("photo", FieldValue.delete());
+                Drawable drawable = getResources().getDrawable(R.drawable.persona);
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                imgperfil.setImageBitmap(bitmap);
+            }
+        });
+
+    }
+
     public void subir_foto(){
         subirfoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                elegir_foto();
+            }
+        });
+    }
+    public void subir_foto2(){
+        imgperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 elegir_foto();
@@ -213,6 +266,7 @@ public class UsuarioFragment extends Fragment {
                             HashMap<String, Object> map = new HashMap<>();
                             map.put("photo",download_uri);
                             db.collection("users").document(userId).update(map);
+                            getUser();
 
                         }
                     });
@@ -226,25 +280,7 @@ public class UsuarioFragment extends Fragment {
         });
     }
 
-    public void getUser(){
-        db.collection("users").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String photoUser = documentSnapshot.getString("photo");
 
-                try {
-                    if (!photoUser.equals("")){
-                        Picasso.with(getContext())
-                                .load(photoUser)
-                                .resize(150,150)
-                                .into(imgperfil);
-                    }
-                }catch (Exception e){
-                    Log.v("Error", "0: " + e);
-                }
-            }
-        });
-    }
     public void pintar_imagen_camara(View view){
         ImageView myImageView = view.findViewById(R.id.ivcamara);
         Drawable drawable = myImageView.getDrawable();

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA67CB"
+    android:background="@drawable/fondo_degradado"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -43,6 +43,7 @@
             android:layout_marginStart="75dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="75dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"
             android:ems="10"
             android:hint="Password"

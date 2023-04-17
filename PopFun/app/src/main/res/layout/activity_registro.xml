@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA67CB"
+    android:background="@drawable/fondo_degradado"
     tools:context=".RegistroActivity">
 
     <LinearLayout
@@ -111,10 +111,11 @@
             android:backgroundTint="@color/white"
             android:textColorHint="@color/white"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Password"/>
+            android:hint="Password"
+            android:layout_marginBottom="20dp"/>
 
 
 
