@@ -22,6 +22,10 @@
         android:title="">
         <menu>
             <item
+                android:id="@+id/nav_ajustes"
+                android:icon="@drawable/nav_ajustes"
+                android:title="Settings"/>
+            <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/nav_logout"
                 android:title="Logout"/>
