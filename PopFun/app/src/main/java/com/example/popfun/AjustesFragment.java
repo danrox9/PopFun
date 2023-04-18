@@ -65,14 +65,14 @@ public class AjustesFragment extends Fragment {
         Drawable customBackground = getResources().getDrawable(R.drawable.fondo_degradado,activity.getTheme());
         actionBar.setBackgroundDrawable(customBackground);
 
-        borrarusuarioaut();
-        recuperarcontrasena();
+        borrarusuarioaut(eliminarcuenta);
+        recuperarcontrasena(recuperarcuenta);
 
 
     }
 
-    public void recuperarcontrasena(){
-        recuperarcuenta.setOnClickListener(new View.OnClickListener() {
+    public void recuperarcontrasena(Button boton){
+        boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dialog dialog = new Dialog(getActivity());
@@ -82,6 +82,7 @@ public class AjustesFragment extends Fragment {
                 EditText editText = dialog.findViewById(R.id.dialog_edittext);
                 editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                 editText.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.fondo_degradado);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = 800; // duplicar el ancho actual
@@ -120,8 +121,8 @@ public class AjustesFragment extends Fragment {
             }
         });
     }
-    public void borrarusuarioaut(){
-        eliminarcuenta.setOnClickListener(new View.OnClickListener() {
+    public void borrarusuarioaut(Button boton){
+        boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
