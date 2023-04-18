@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
         passwordlogin=findViewById(R.id.passwordEditText);
         botonviewpass=findViewById(R.id.btpassword);
 
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        boolean isLogged = prefs.getBoolean("isLogged", false);
+        if (isLogged) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        } else {
+            // El usuario debe iniciar sesión para poder usar la aplicación
+        }
+
 
         setup();
 
@@ -66,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()){
                                         showHome(task.getResult().getUser().getEmail());
+                                        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putBoolean("isLogged", true);
+                                        editor.apply();
                                     }else {
                                         showAlert();
                                     }

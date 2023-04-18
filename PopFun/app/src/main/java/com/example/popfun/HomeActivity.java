@@ -7,6 +7,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -49,6 +50,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = navigationView.getHeaderView(0);
         improfile = headerView.findViewById(R.id.foto_header);
+
+
+
         getUser();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav) {
@@ -105,6 +109,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isLogged", false);
+                editor.apply();
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
