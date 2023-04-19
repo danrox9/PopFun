@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
-    TextView emailTV;
     RecyclerView recyclerView;
     List<String> TextoFunko;
     List<Integer> FunkoImage;
@@ -69,19 +67,24 @@ public class HomeFragment extends Fragment {
     }
 
     public void setup() {
-
         db.collection("funko").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        album = task.getResult();
-                        funkoslist = album.toObjects(FunkoEntity.class);
-                        lanzarAdaptador();
+                        if (task.isSuccessful()) {
+                            album = task.getResult();
+                            funkoslist = album.toObjects(FunkoEntity.class);
+                            if (funkoslist != null && !funkoslist.isEmpty()) {
+                                lanzarAdaptador();
+                            }
+                        } else {
+                            // handle error
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        // handle error
                     }
                 });
     }
