@@ -17,12 +17,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
@@ -34,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
 
     ImageView improfile;
+    TextView nicknuevo;
 
 
     @Override
@@ -50,10 +55,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = navigationView.getHeaderView(0);
         improfile = headerView.findViewById(R.id.foto_header);
+        nicknuevo = headerView.findViewById(R.id.nick);
 
 
-
-        getUser();
+        setupnick();
+        getUserPhoto();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav) {
             @Override
@@ -62,7 +68,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Drawable drawable = getResources().getDrawable(R.drawable.persona);
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 improfile.setImageBitmap(bitmap);
-                getUser();
+                setupnick();
+                getUserPhoto();
             }
         };
         drawerLayout.addDrawerListener(toggle);
@@ -75,7 +82,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void getUser(){
+    public void setupnick() {
+
+        // Obtener la referencia de la colección "usuarios" en Firestore
+        CollectionReference usuariosRef = db.collection("users");
+
+        // Obtener el documento del usuario actual utilizando su ID
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        usuariosRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if (document.exists()) {
+                        // Obtener los datos del documento
+
+                        String Nickname = document.getString("Nickname");
+
+                        // Mostrar los datos en los EditText
+                        nicknuevo.setText(Nickname);
+                    } else {
+                        // El documento no existe
+                    }
+                } else {
+                    // Error al leer el documento
+                }
+            }
+        });
+    }
+
+    public void getUserPhoto(){
         db.collection("users").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

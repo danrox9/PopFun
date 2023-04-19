@@ -42,7 +42,7 @@
         app:menu="@menu/nav_menu"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        android:background="#4c3b4f"/>
+        android:background="@drawable/fondo_degradado"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
