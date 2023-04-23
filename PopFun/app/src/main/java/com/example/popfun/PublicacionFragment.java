@@ -52,7 +52,7 @@ public class PublicacionFragment extends Fragment {
     String userId = FirebaseAuth.getInstance().getUid();
     String userIdUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     Button subirpubli;
-    EditText titulopubli;
+    EditText titulopubli ,descripcionpubli;
     ImageView imagenpubli;
     StorageReference storageReference;
     String storage_path = "funko/*";
@@ -77,6 +77,7 @@ public class PublicacionFragment extends Fragment {
         storageReference  = FirebaseStorage.getInstance().getReference();;
         subirpubli = view.findViewById(R.id.subirpublicacion);
         titulopubli = view.findViewById(R.id.titulo);
+        descripcionpubli = view.findViewById(R.id.descripcion);
         imagenpubli = view.findViewById(R.id.image_view);
 
         getNumFunkoObjects();
@@ -90,9 +91,10 @@ public class PublicacionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //textoData.put("IdUsuario",userId);
                 String titulo = titulopubli.getText().toString();
                 textoData.put("textos", titulo);
+                String descripcion = descripcionpubli.getText().toString();
+                textoData.put("descripcion", descripcion);
 
 
                 funkosRef.add(textoData)

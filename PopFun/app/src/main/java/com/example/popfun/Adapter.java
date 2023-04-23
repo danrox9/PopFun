@@ -37,6 +37,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.TextoFunko.setText(funkoslist.get(position).getTextos());
+        holder.DescFunko.setText(funkoslist.get(position).getDescripcion());
+        holder.UserFunko.setText("       "+funkoslist.get(position).getIdUsuario());
 
         Glide.with(holder.FunkoImage)
                 .load(funkoslist.get(position).getImagenes())
@@ -50,12 +52,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView TextoFunko;
+        TextView DescFunko;
+        TextView UserFunko;
         ImageView FunkoImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             TextoFunko = itemView.findViewById(R.id.TextoFunko1);
+            DescFunko = itemView.findViewById(R.id.TextoFunko2);
             FunkoImage = itemView.findViewById(R.id.FunkoImage1);
+            UserFunko = itemView.findViewById(R.id.TextoFunko3);
         }
     }
 }
