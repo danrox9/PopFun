@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,16 +121,29 @@ public class PublicacionFragment extends Fragment {
         if (resultCode == RESULT_OK){
             if (requestCode == COD_SEL_IMAGE){
                 image_url = data.getData();
-                subirPhoto(image_url);
+                try {
+                    subirPhoto(image_url);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void subirPhoto(Uri image_url){
+    public void subirPhoto(Uri image_url) throws IOException {
+        // Obtener un objeto Bitmap de la imagen seleccionada
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), image_url);
+
+        // Comprimir la imagen con una calidad del 50%
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] data = baos.toByteArray();
+
+        // Subir la imagen comprimida a Firebase Storage
         String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + idd;
         StorageReference reference = storageReference.child(rute_storage_photo);
-        reference.putFile(image_url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        reference.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
@@ -149,5 +166,6 @@ public class PublicacionFragment extends Fragment {
             }
         });
     }
+
 
 }

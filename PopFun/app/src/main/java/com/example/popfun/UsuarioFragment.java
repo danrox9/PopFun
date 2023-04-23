@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -248,35 +252,59 @@ public class UsuarioFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void subirPhoto(Uri image_url){
-        String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + idd;
-        StorageReference reference = storageReference.child(rute_storage_photo);
-        reference.putFile(image_url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task <Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isSuccessful());
-                if (uriTask.isSuccessful()){
-                    uriTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String download_uri = uri.toString();
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("photo",download_uri);
-                            db.collection("users").document(userId).update(map);
-                            getUser();
+    public void subirPhoto(Uri image_url) {
+        try {
+            // Obtener un objeto Bitmap a partir de la imagen seleccionada
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), image_url);
 
-                        }
-                    });
+            // Redimensionar la imagen a la mitad
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            float scaleWidth = 0.5f;
+            float scaleHeight = 0.5f;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
+
+            // Comprimir la imagen con calidad del 50%
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
+
+            // Subir la imagen comprimida a Firebase Storage
+            String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + idd;
+            StorageReference reference = storageReference.child(rute_storage_photo);
+            UploadTask uploadTask = reference.putBytes(data);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task <Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isSuccessful());
+                    if (uriTask.isSuccessful()){
+                        uriTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String download_uri = uri.toString();
+                                HashMap<String, Object> map = new HashMap<>();
+                                map.put("photo",download_uri);
+                                db.collection("users").document(userId).update(map);
+                                getUser();
+                            }
+                        });
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-            }
-        });
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
 
     public void pintar_imagen_camara(View view){
