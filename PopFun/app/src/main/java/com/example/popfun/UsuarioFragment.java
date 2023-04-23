@@ -272,7 +272,7 @@ public class UsuarioFragment extends Fragment {
             byte[] data = baos.toByteArray();
 
             // Subir la imagen comprimida a Firebase Storage
-            String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + idd;
+            String rute_storage_photo = storage_path + "" + photo + "" + userId + "";
             StorageReference reference = storageReference.child(rute_storage_photo);
             UploadTask uploadTask = reference.putBytes(data);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

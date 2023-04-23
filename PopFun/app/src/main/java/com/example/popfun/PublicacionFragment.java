@@ -8,7 +8,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +33,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,6 +50,7 @@ public class PublicacionFragment extends Fragment {
     CollectionReference funkosRef = db.collection("funko");
 
     String userId = FirebaseAuth.getInstance().getUid();
+    String userIdUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     Button subirpubli;
     EditText titulopubli;
     ImageView imagenpubli;
@@ -56,10 +61,9 @@ public class PublicacionFragment extends Fragment {
     private static final int COD_SEL_IMAGE = 300;
     private Uri image_url;
     String photo ="photo";
-    String idd;
+    int contadorPhoto = 0;
 
     Map<String, Object> textoData = new HashMap<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +79,7 @@ public class PublicacionFragment extends Fragment {
         titulopubli = view.findViewById(R.id.titulo);
         imagenpubli = view.findViewById(R.id.image_view);
 
+        getNumFunkoObjects();
         subirpublicacion(view);
 
     }
@@ -141,7 +146,7 @@ public class PublicacionFragment extends Fragment {
         byte[] data = baos.toByteArray();
 
         // Subir la imagen comprimida a Firebase Storage
-        String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + idd;
+        String rute_storage_photo = storage_path + "" + photo + "" + userId + "" + contadorPhoto;
         StorageReference reference = storageReference.child(rute_storage_photo);
         reference.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -154,6 +159,7 @@ public class PublicacionFragment extends Fragment {
                         public void onSuccess(Uri uri) {
                             String download_uri = uri.toString();
                             textoData.put("imagenes",download_uri);
+                            textoData.put("idUsuario",userIdUsuario);
 
                             Picasso.with(getContext())
                                     .load(download_uri)
@@ -166,6 +172,23 @@ public class PublicacionFragment extends Fragment {
             }
         });
     }
+
+    public void getNumFunkoObjects() {
+        db.collection("funko")
+                .whereEqualTo("idUsuario", userIdUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int numObjects = task.getResult().size();
+                            contadorPhoto = numObjects;
+                        } else {
+                        }
+                    }
+                });
+    }
+
 
 
 }
