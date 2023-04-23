@@ -32,7 +32,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     List<String> TextoFunko;
     List<Integer> FunkoImage;
-
     List<FunkoEntity> funkoslist;
     Adapter adapter;
     QuerySnapshot album;

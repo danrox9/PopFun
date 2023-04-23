@@ -44,7 +44,11 @@
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
-            android:src="@drawable/aot" />
+            android:src="@drawable/aot"
+            android:maxWidth="289dp"
+            android:minWidth="289dp"
+            android:maxHeight="343dp"
+            android:minHeight="343dp"     />
 
             <TextView
                 android:id="@+id/TextoFunko2"
