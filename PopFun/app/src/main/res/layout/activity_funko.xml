@@ -30,30 +30,27 @@
             <TextView
                 android:id="@+id/TextoFunko1"
                 android:layout_width="250dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="25dp"
+                android:textSize="28dp"
                 android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/FunkoImage1"
-            android:layout_width="289dp"
+            android:layout_width="295dp"
             android:layout_height="343dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
             android:src="@drawable/aot"
-            android:maxWidth="289dp"
-            android:minWidth="289dp"
-            android:maxHeight="343dp"
-            android:minHeight="343dp"     />
+            android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/TextoFunko2"
-                android:layout_width="180dp"
-                android:layout_height="90dp"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="@color/white"

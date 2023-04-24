@@ -10,4 +10,8 @@
         <item name="background">@drawable/fondo_degradado</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/fondo_degradado</item>
+    </style>
+
 </resources>
