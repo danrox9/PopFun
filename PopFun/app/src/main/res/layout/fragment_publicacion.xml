@@ -12,16 +12,18 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <ImageView
             android:id="@+id/image_view"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/subirimage" />
+            android:src="@drawable/subirimage"
+            android:scaleType="centerCrop"/>
 
         <EditText
             android:id="@+id/titulo"

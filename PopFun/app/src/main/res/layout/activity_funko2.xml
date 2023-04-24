@@ -68,7 +68,7 @@
                     android:layout_height="match_parent"
                     android:text="TextView"
                     android:layout_weight="1"
-                    android:textColor="#0000ff" />
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/editarfunko"
