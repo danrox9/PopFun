@@ -31,7 +31,7 @@ public class EditarPublicacion extends AppCompatActivity {
 
     ImageView publicacion;
     EditText tituloE, descripcionE;
-    Button actualizar;
+    Button actualizar,borrar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -43,6 +43,7 @@ public class EditarPublicacion extends AppCompatActivity {
         tituloE = findViewById(R.id.titulo);
         descripcionE = findViewById(R.id.descripcion);
         actualizar = findViewById(R.id.actualizar);
+        borrar = findViewById(R.id.borrarb);
 
 
         // Recuperar los extras del intent
@@ -80,7 +81,7 @@ public class EditarPublicacion extends AppCompatActivity {
                                         updates.put("textos", nuevotitulo);
                                         updates.put("descripcion", nuevodescripcion);
                                         docRef.update(updates);
-                                        Intent intent = new Intent(EditarPublicacion.this, GaleriaFragment.class);
+                                        Intent intent = new Intent(EditarPublicacion.this, HomeActivity.class);
                                         startActivity(intent);
                                     }
                                 }
@@ -88,6 +89,31 @@ public class EditarPublicacion extends AppCompatActivity {
                         });
 
 
+            }
+        });
+
+        borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("funko")
+                        .whereEqualTo("imagenes", imagen)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    // Iterar sobre los resultados de la consulta
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        // Obtener la referencia al documento que deseas actualizar
+                                        DocumentReference docRef = db.collection("funko").document(document.getId());
+
+                                        docRef.delete();
+                                        Intent intent = new Intent(EditarPublicacion.this, HomeActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                        });
             }
         });
 

@@ -34,6 +34,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".HomeFragment"
+            android:exported="false" />
+        <activity
+            android:name=".AjustesFragment"
+            android:exported="false" />
+        <activity
+            android:name=".GaleriaFragment"
+            android:exported="false" />
+        <activity
             android:name=".PublicacionFragment"
             android:exported="false" />
         <activity

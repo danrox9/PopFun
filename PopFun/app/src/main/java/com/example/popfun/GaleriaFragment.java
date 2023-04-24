@@ -1,9 +1,12 @@
 package com.example.popfun;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +46,14 @@ public class GaleriaFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recyclerView);
+        // Obtener la referencia a la actividad
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        // Obtener la referencia a la ActionBar
+        ActionBar actionBar = activity.getSupportActionBar();
+        // Crear el objeto Drawable a partir de la imagen en drawable
+        Drawable customBackground = getResources().getDrawable(R.drawable.fondo_degradado);
+        // Establecer el nuevo fondo personalizado
+        actionBar.setBackgroundDrawable(customBackground);
         setup();
 
     }
