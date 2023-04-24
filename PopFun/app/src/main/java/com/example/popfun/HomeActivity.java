@@ -147,6 +147,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_ajustes:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AjustesFragment()).commit();
                 break;
+            case R.id.nav_galeria:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GaleriaFragment()).commit();
+                break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
                 SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);

@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
             android:src="@drawable/persona"
-            app:shapeAppearanceOverlay="@style/CircularImageView"/>
+            app:shapeAppearanceOverlay="@style/CircularImageView" />
 
 
 
