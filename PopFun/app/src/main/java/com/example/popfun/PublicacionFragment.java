@@ -74,7 +74,7 @@ public class PublicacionFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        storageReference  = FirebaseStorage.getInstance().getReference();;
+        storageReference  = FirebaseStorage.getInstance().getReference();
         subirpubli = view.findViewById(R.id.subirpublicacion);
         titulopubli = view.findViewById(R.id.titulo);
         descripcionpubli = view.findViewById(R.id.descripcion);

@@ -31,7 +31,7 @@ public class GaleriaFragment extends Fragment {
 
     List<FunkoEntity> funkoslist;
     RecyclerView recyclerView;
-    Adapter adapter;
+    AdapterGaleria adapter;
     QuerySnapshot album;
 
     @Override
@@ -71,7 +71,7 @@ public class GaleriaFragment extends Fragment {
     }
 
     public void lanzarAdaptador() {
-        adapter = new Adapter(getContext(), funkoslist);
+        adapter = new AdapterGaleria(getContext(), funkoslist);
         //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         //recyclerView.setLayoutManager(gridLayoutManager);
         //recyclerView.setAdapter(adapter);
