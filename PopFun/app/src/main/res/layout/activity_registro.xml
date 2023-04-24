@@ -50,7 +50,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="First Name"/>
+            android:hint="First Name"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/lastnameregistro"
@@ -66,7 +67,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Last Name"/>
+            android:hint="Last Name"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/nicknameregistro"
@@ -82,7 +84,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Nickname"/>
+            android:hint="Nickname"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/emailregistro"

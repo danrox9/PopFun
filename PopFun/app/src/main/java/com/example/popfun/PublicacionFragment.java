@@ -95,6 +95,7 @@ public class PublicacionFragment extends Fragment {
                 textoData.put("textos", titulo);
                 String descripcion = descripcionpubli.getText().toString();
                 textoData.put("descripcion", descripcion);
+                textoData.put("idUsuario",userIdUsuario);
 
 
                 funkosRef.add(textoData)
@@ -161,7 +162,6 @@ public class PublicacionFragment extends Fragment {
                         public void onSuccess(Uri uri) {
                             String download_uri = uri.toString();
                             textoData.put("imagenes",download_uri);
-                            textoData.put("idUsuario",userIdUsuario);
 
                             Picasso.with(getContext())
                                     .load(download_uri)

@@ -61,7 +61,7 @@
             android:gravity="center"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:text="User"
+            android:text="Account"
             android:textColor="@color/white"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -80,7 +80,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="First Name"/>
+            android:hint="First Name"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/lastnameuser"
@@ -96,7 +97,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Last Name"/>
+            android:hint="Last Name"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/nicknameuser"
@@ -112,7 +114,8 @@
             android:inputType="textPersonName"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:hint="Nickname"/>
+            android:hint="Nickname"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/emailuser"
