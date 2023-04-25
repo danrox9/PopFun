@@ -62,7 +62,9 @@ public class HomeFragment extends Fragment {
     }
 
     public void setup() {
-        db.collection("funko").get()
+        db.collection("funko")
+                .whereNotEqualTo("imagenes","")
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

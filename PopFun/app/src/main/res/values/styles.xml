@@ -14,4 +14,14 @@
         <item name="android:windowBackground">@drawable/fondo_degradado</item>
     </style>
 
+    <style name="RoundedCorners">
+        <item name="cornerSize">50dp</item>
+        <item name="strokeColor">@android:color/white</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:bottomLeftRadius">0dp</item>
+        <item name="android:bottomRightRadius">0dp</item>
+    </style>
+
+
+
 </resources>

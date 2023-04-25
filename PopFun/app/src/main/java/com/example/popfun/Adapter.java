@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.popfun.models.FunkoEntity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,12 +39,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         holder.TextoFunko.setText(funkoslist.get(position).getTextos());
         holder.DescFunko.setText(funkoslist.get(position).getDescripcion());
-        holder.UserFunko.setText("       "+funkoslist.get(position).getIdUsuario());
+        holder.UserFunko.setText(funkoslist.get(position).getIdUsuario());
 
-        Glide.with(holder.FunkoImage)
+        Picasso.with(inflater.getContext())
                 .load(funkoslist.get(position).getImagenes())
                 .into(holder.FunkoImage);
-
     }
 
     @Override

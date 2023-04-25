@@ -161,19 +161,23 @@ public class PublicacionFragment extends Fragment {
                         @Override
                         public void onSuccess(Uri uri) {
                             String download_uri = uri.toString();
-                            textoData.put("imagenes",download_uri);
+                            // Obtener el token de la URL de descarga
+                            String token = uri.getLastPathSegment();
+
+                            textoData.put("imagenes", download_uri);
+                            textoData.put("token", token);
 
                             Picasso.with(getContext())
                                     .load(download_uri)
                                     .resize(289,393)
                                     .into(imagenpubli);
-
                         }
                     });
                 }
             }
         });
     }
+
 
     public void getNumFunkoObjects() {
         db.collection("funko")

@@ -59,7 +59,10 @@ public class GaleriaFragment extends Fragment {
     }
 
     public void setup() {
-        db.collection("funko").whereEqualTo("idUsuario", userId).get()
+        db.collection("funko")
+                .whereEqualTo("idUsuario", userId)
+                .whereNotEqualTo("imagenes","")
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

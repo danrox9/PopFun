@@ -23,6 +23,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +36,17 @@ public class EditarPublicacion extends AppCompatActivity {
     Button actualizar,borrar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    String storage_path = "funko/*";
+    String photo ="photo";
+    String userId = FirebaseAuth.getInstance().getUid();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_publicacion);
+        PublicacionFragment pb = new PublicacionFragment();
+        pb.getNumFunkoObjects();
         publicacion = findViewById(R.id.image_view);
         tituloE = findViewById(R.id.titulo);
         descripcionE = findViewById(R.id.descripcion);
@@ -104,18 +112,40 @@ public class EditarPublicacion extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Iterar sobre los resultados de la consulta
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        // Obtener la referencia al documento que deseas actualizar
-                                        DocumentReference docRef = db.collection("funko").document(document.getId());
+                                        // Obtener el token de la imagen
+                                        String token = document.getString("token");
 
-                                        docRef.delete();
-                                        Intent intent = new Intent(EditarPublicacion.this, HomeActivity.class);
-                                        startActivity(intent);
+                                        // Obtener una referencia al archivo en Firebase Storage
+                                        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                        StorageReference fileRef = storageRef.child(token);
+
+                                        // Borrar el archivo
+                                        fileRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Actualizar el documento para borrar el campo "imagenes"
+                                                DocumentReference docRef = db.collection("funko").document(document.getId());
+                                                Map<String, Object> updates = new HashMap<>();
+                                                updates.put("imagenes", "");
+                                                docRef.update(updates);
+
+                                                Intent intent = new Intent(EditarPublicacion.this, HomeActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Manejar el error
+                                            }
+                                        });
                                     }
                                 }
                             }
                         });
             }
         });
+
+
 
     }
 }

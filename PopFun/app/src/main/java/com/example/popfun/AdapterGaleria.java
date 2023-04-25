@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.popfun.models.FunkoEntity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class AdapterGaleria extends RecyclerView.Adapter<AdapterGaleria.ViewHold
         FunkoEntity funko = funkoslist.get(position);
         holder.TextoFunko.setText(funko.getTextos());
         holder.DescFunko.setText(funko.getDescripcion());
-        holder.UserFunko.setText("       " + funko.getIdUsuario());
+        holder.UserFunko.setText(funko.getIdUsuario());
         holder.editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +52,7 @@ public class AdapterGaleria extends RecyclerView.Adapter<AdapterGaleria.ViewHold
             }
         });
 
-        Glide.with(holder.FunkoImage)
+        Picasso.with(inflater.getContext())
                 .load(funko.getImagenes())
                 .into(holder.FunkoImage);
     }
@@ -66,7 +67,6 @@ public class AdapterGaleria extends RecyclerView.Adapter<AdapterGaleria.ViewHold
         TextView DescFunko;
         TextView UserFunko;
         ImageView FunkoImage;
-
         ImageView editar;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
