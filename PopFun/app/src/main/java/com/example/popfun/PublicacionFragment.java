@@ -127,6 +127,15 @@ public class PublicacionFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+                dialogButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 dialog.show();
 
 
