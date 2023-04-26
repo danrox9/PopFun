@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,9 +21,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -90,20 +94,42 @@ public class PublicacionFragment extends Fragment {
         subirpubli.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.confirmacion);
+                Button dialogButton = dialog.findViewById(R.id.dialog_button);
+                Button dialogButton2 = dialog.findViewById(R.id.dialog_button2);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.fondo_degradado);
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = 800; // duplicar el ancho actual
+                lp.height = 800; // duplicar la altura actual
+                dialog.getWindow().setAttributes(lp);
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String titulo = titulopubli.getText().toString();
+                        textoData.put("textos", titulo);
+                        String descripcion = descripcionpubli.getText().toString();
+                        textoData.put("descripcion", descripcion);
+                        textoData.put("idUsuario",userIdUsuario);
 
-                String titulo = titulopubli.getText().toString();
-                textoData.put("textos", titulo);
-                String descripcion = descripcionpubli.getText().toString();
-                textoData.put("descripcion", descripcion);
-                textoData.put("idUsuario",userIdUsuario);
+
+                        funkosRef.add(textoData)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
 
 
-                funkosRef.add(textoData)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                            }
-                        });
+                                    }
+                                });
+                        dialog.dismiss();
+                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog.show();
+
+
             }
         });
         subir_foto();

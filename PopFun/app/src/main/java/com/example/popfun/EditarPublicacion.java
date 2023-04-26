@@ -45,8 +45,6 @@ public class EditarPublicacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_publicacion);
-        PublicacionFragment pb = new PublicacionFragment();
-        pb.getNumFunkoObjects();
         publicacion = findViewById(R.id.image_view);
         tituloE = findViewById(R.id.titulo);
         descripcionE = findViewById(R.id.descripcion);
