@@ -169,7 +169,6 @@ public class PublicacionFragment extends Fragment {
 
                             Picasso.with(getContext())
                                     .load(download_uri)
-                                    .resize(289,393)
                                     .into(imagenpubli);
                         }
                     });

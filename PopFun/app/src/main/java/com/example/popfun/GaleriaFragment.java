@@ -59,29 +59,32 @@ public class GaleriaFragment extends Fragment {
     }
 
     public void setup() {
-        db.collection("funko")
-                .whereEqualTo("idUsuario", userId)
-                .whereNotEqualTo("imagenes","")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            album = task.getResult();
-                            funkoslist = album.toObjects(FunkoEntity.class);
-                            if (funkoslist != null && !funkoslist.isEmpty()) {
-                                lanzarAdaptador();
+        if (userId != null) {
+            db.collection("funko")
+                    .whereEqualTo("idUsuario", userId)
+                    .whereNotEqualTo("imagenes", "")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                album = task.getResult();
+                                funkoslist = album.toObjects(FunkoEntity.class);
+                                if (funkoslist != null && !funkoslist.isEmpty()) {
+                                    lanzarAdaptador();
+                                }
+                            } else {
+                                // handle error
                             }
-                        } else {
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
                             // handle error
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // handle error
-                    }
-                });
+                    });
+        }
+
     }
 
     public void lanzarAdaptador() {
