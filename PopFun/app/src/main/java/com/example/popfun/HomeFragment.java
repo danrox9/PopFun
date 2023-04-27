@@ -64,7 +64,9 @@ public class HomeFragment extends Fragment {
 
     public void setup() {
         db.collection("funko")
-                .whereNotEqualTo("imagenes","")
+                .orderBy("imagenes")
+                .whereNotEqualTo("imagenes", "")
+                .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -86,6 +88,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
 
     public void lanzarAdaptador() {
         adapter = new Adapter(getContext(), funkoslist);

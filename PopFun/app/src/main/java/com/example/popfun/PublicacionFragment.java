@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,6 +113,7 @@ public class PublicacionFragment extends Fragment {
                         String descripcion = descripcionpubli.getText().toString();
                         textoData.put("descripcion", descripcion);
                         textoData.put("idUsuario",userIdUsuario);
+                        textoData.put("fecha", new Date());
 
 
                         funkosRef.add(textoData)

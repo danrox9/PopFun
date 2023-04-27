@@ -170,6 +170,36 @@ public class UsuarioFragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getActivity(), "Cambios guardados correctamente", Toast.LENGTH_SHORT).show();
+                                // Obtener la referencia de la colección "usuarios" en Firestore
+                                CollectionReference usuariosRef = db.collection("users");
+
+                                // Obtener el documento del usuario actual utilizando su ID
+                                String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                                usuariosRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+
+                                            if (document.exists()) {
+                                                // Obtener los datos del documento
+
+                                                String Nickname = document.getString("Nickname");
+                                                String FirstName = document.getString("First Name");
+                                                String LastName = document.getString("Last Name");
+
+                                                // Mostrar los datos en los EditText
+                                                texto.setText(FirstName+" "+LastName);
+
+
+                                            } else {
+                                                // El documento no existe
+                                            }
+                                        } else {
+                                            // Error al leer el documento
+                                        }
+                                    }
+                                });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
