@@ -1,20 +1,40 @@
 package com.example.popfun.models;
 
-public class FunkoEntity {
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class FunkoEntity implements Comparable<FunkoEntity>{
+
+    public int compareTo(FunkoEntity other) {
+        // Ordenar por fecha en orden descendente
+        return other.fecha.compareTo(this.fecha);
+    }
 
     private String imagenes;
     private String textos;
     private String descripcion;
     private String idUsuario;
 
+    private Date fecha;
+
     public  FunkoEntity(){
 
     }
-    public FunkoEntity(String imagenes, String textos, String descripcion,String idUsuario) {
+    public FunkoEntity(String imagenes, String textos, String descripcion,String idUsuario,Date fecha) {
         this.imagenes = imagenes;
         this.textos = textos;
         this.descripcion = descripcion;
         this.idUsuario = idUsuario;
+        this.fecha = fecha;
+
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public String getImagenes() {

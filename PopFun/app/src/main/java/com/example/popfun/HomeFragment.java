@@ -27,6 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -66,7 +67,6 @@ public class HomeFragment extends Fragment {
         db.collection("funko")
                 .orderBy("imagenes")
                 .whereNotEqualTo("imagenes", "")
-                .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -75,6 +75,8 @@ public class HomeFragment extends Fragment {
                             album = task.getResult();
                             funkoslist = album.toObjects(FunkoEntity.class);
                             if (funkoslist != null && !funkoslist.isEmpty()) {
+                                // Ordenar por fecha en orden descendente
+                                Collections.sort(funkoslist);
                                 lanzarAdaptador();
                             }
                         } else {
@@ -88,6 +90,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
 
 
     public void lanzarAdaptador() {
