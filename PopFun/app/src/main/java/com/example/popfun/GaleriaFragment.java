@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -71,6 +72,7 @@ public class GaleriaFragment extends Fragment {
                                 album = task.getResult();
                                 funkoslist = album.toObjects(FunkoEntity.class);
                                 if (funkoslist != null && !funkoslist.isEmpty()) {
+                                    Collections.sort(funkoslist);
                                     lanzarAdaptador();
                                 }
                             } else {

@@ -14,7 +14,6 @@ public class FunkoEntity implements Comparable<FunkoEntity>{
     private String textos;
     private String descripcion;
     private String idUsuario;
-
     private Date fecha;
 
     public  FunkoEntity(){

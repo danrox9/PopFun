@@ -81,7 +81,8 @@
             android:minWidth="48dp"
             android:minHeight="48dp"
             android:hint="First Name"
-            android:maxLength="20"/>
+            android:maxLength="20"
+            />
 
         <EditText
             android:id="@+id/lastnameuser"

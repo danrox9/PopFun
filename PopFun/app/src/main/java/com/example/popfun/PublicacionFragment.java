@@ -110,7 +110,7 @@ public class PublicacionFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String titulo = titulopubli.getText().toString();
-                        textoData.put("textos", titulo);
+                        textoData.put("textos", titulo.toUpperCase());
                         String descripcion = descripcionpubli.getText().toString();
                         textoData.put("descripcion", descripcion);
                         textoData.put("idUsuario",userIdUsuario);

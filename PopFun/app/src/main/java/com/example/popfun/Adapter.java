@@ -36,10 +36,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.TextoFunko.setText(funkoslist.get(position).getTextos());
-        holder.DescFunko.setText(funkoslist.get(position).getDescripcion());
-        holder.UserFunko.setText(funkoslist.get(position).getIdUsuario());
+        holder.DescFunko.setText( funkoslist.get(position).getDescripcion());
+        holder.UserFunko.setText("By: "+funkoslist.get(position).getIdUsuario());
 
         Picasso.with(inflater.getContext())
                 .load(funkoslist.get(position).getImagenes())

@@ -84,7 +84,7 @@ public class EditarPublicacion extends AppCompatActivity {
                                         String nuevotitulo = tituloE.getText().toString();
                                         String nuevodescripcion = descripcionE.getText().toString();
                                         Map<String, Object> updates = new HashMap<>();
-                                        updates.put("textos", nuevotitulo);
+                                        updates.put("textos", nuevotitulo.toUpperCase());
                                         updates.put("descripcion", nuevodescripcion);
                                         docRef.update(updates);
                                         Intent intent = new Intent(EditarPublicacion.this, HomeActivity.class);

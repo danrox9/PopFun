@@ -31,17 +31,18 @@
                 android:id="@+id/FunkoImage1"
                 android:layout_width="match_parent"
                 android:layout_height="510dp"
-                android:layout_marginTop="-38dp"
+                android:layout_marginTop="-18dp"
                 android:paddingLeft="2dp"
                 android:paddingTop="5dp"
                 android:paddingRight="2dp"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedCorners"
-                app:srcCompat="@drawable/aot" />
+                app:shapeAppearanceOverlay="@style/RoundedCorners" />
 
             <TextView
+                android:layout_margin="10dp"
+                android:paddingLeft="20dp"
                 android:id="@+id/TextoFunko1"
-                android:layout_width="290dp"
+                android:layout_width="360dp"
                 android:layout_height="35dp"
                 android:text="TextView"
                 android:textColor="@color/white"
@@ -50,19 +51,21 @@
 
             <TextView
                 android:id="@+id/TextoFunko2"
-                android:layout_width="290dp"
+                android:paddingLeft="20dp"
+                android:layout_width="360dp"
                 android:layout_height="55dp"
                 android:text="TextView"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textColor="#9b9b9b"
+                android:textSize="18dp" />
+
 
             <TextView
                 android:id="@+id/TextoFunko3"
-                android:layout_width="290dp"
+                android:paddingLeft="30dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="@color/black" />
+                android:textColor="#24afff" />
         </LinearLayout>
 
 

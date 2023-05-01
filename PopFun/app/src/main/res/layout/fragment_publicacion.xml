@@ -43,64 +43,64 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="200dp"
-                    android:layout_height="60dp"
-                    android:gravity="right|center"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="left|bottom"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="Titulo: "
                     android:textColor="@color/white"
                     android:textSize="20dp"
-                    />
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:id="@+id/titulo"
-                    android:layout_width="200dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:background="@drawable/bordes_con_relleno"
-                    android:gravity="center_horizontal"
-                    android:maxLength="15"
+                    android:gravity="center_vertical|center"
+                    android:layout_gravity="center"
+                    android:maxLength="17"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
-                    android:hint="Introduce aqui"/>
+                    android:layout_weight="1"
+                    android:hint="Introduce titulo"
+                    android:singleLine="true"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="left|bottom"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Descripción: "
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/descripcion"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bordes_con_relleno"
+                    android:ems="10"
+                    android:gravity="center_vertical|center"
+                    android:layout_gravity="center"
+                    android:hint="Introduce descripcion"
+                    android:inputType="textMultiLine"
+                    android:maxLength="46"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_weight="1"/>
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="200dp"
-                android:layout_height="48dp"
-                android:gravity="right|center"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="Descripción: "
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                />
-
-            <EditText
-                android:id="@+id/descripcion"
-                android:layout_width="200dp"
-                android:layout_height="86dp"
-                android:background="@drawable/bordes_con_relleno"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:hint="Introduce aqui"
-                android:inputType="textMultiLine"
-                android:maxLength="46"
-                android:padding="1dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:layout_margin="10dp"/>
-        </LinearLayout>
 
             <Button
                 android:layout_margin="10dp"
@@ -113,7 +113,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="20dp" />
 
 
         </LinearLayout>

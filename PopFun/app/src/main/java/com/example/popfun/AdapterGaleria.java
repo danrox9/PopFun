@@ -40,7 +40,7 @@ public class AdapterGaleria extends RecyclerView.Adapter<AdapterGaleria.ViewHold
         FunkoEntity funko = funkoslist.get(position);
         holder.TextoFunko.setText(funko.getTextos());
         holder.DescFunko.setText(funko.getDescripcion());
-        holder.UserFunko.setText(funko.getIdUsuario());
+        holder.UserFunko.setText("By: "+funko.getIdUsuario());
         holder.editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
