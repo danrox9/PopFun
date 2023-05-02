@@ -71,7 +71,7 @@
                     android:layout_weight="1"
                     android:hint="Introduce titulo"
                     android:singleLine="true"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/textView4"

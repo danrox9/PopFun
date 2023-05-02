@@ -265,11 +265,29 @@ public class UsuarioFragment extends Fragment {
         borrarfoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DocumentReference usuariosPhotoRef = db.collection("users").document(userId);
-                usuariosPhotoRef.update("photo", FieldValue.delete());
-                Drawable drawable = getResources().getDrawable(R.drawable.persona);
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                imgperfil.setImageBitmap(bitmap);
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.confirmarborrado);
+                Button dialogButton = dialog.findViewById(R.id.dialog_button);
+                Button dialogButton2 = dialog.findViewById(R.id.dialog_button2);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.fondo_degradado);
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = 800; // duplicar el ancho actual
+                lp.height = 800; // duplicar la altura actual
+                dialog.getWindow().setAttributes(lp);
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DocumentReference usuariosPhotoRef = db.collection("users").document(userId);
+                        usuariosPhotoRef.update("photo", FieldValue.delete());
+                        Drawable drawable = getResources().getDrawable(R.drawable.persona);
+                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                        imgperfil.setImageBitmap(bitmap);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
 

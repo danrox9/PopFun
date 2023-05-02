@@ -82,7 +82,7 @@
             android:minHeight="48dp"
             android:hint="First Name"
             android:maxLength="20"
-            />
+            android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ "/>
 
         <EditText
             android:id="@+id/lastnameuser"
@@ -99,7 +99,8 @@
             android:minWidth="48dp"
             android:minHeight="48dp"
             android:hint="Last Name"
-            android:maxLength="20"/>
+            android:maxLength="20"
+            android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ " />
 
         <EditText
             android:id="@+id/nicknameuser"
@@ -116,7 +117,7 @@
             android:minWidth="48dp"
             android:minHeight="48dp"
             android:hint="Nickname"
-            android:maxLength="20"/>
+            android:maxLength="20" />
 
         <EditText
             android:id="@+id/emailuser"

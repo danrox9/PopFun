@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,40 +107,46 @@ public class PublicacionFragment extends Fragment {
                 lp.width = 800; // duplicar el ancho actual
                 lp.height = 800; // duplicar la altura actual
                 dialog.getWindow().setAttributes(lp);
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String titulo = titulopubli.getText().toString();
-                        textoData.put("textos", titulo.toUpperCase());
-                        String descripcion = descripcionpubli.getText().toString();
-                        textoData.put("descripcion", descripcion);
-                        textoData.put("idUsuario",userIdUsuario);
-                        textoData.put("fecha", new Date());
+                String titulo = titulopubli.getText().toString();
+                String descripcion = descripcionpubli.getText().toString();
+
+                if(TextUtils.isEmpty(titulo) || TextUtils.isEmpty(descripcion)){
+                    Toast.makeText(getActivity(), "El titulo o la descripción estan vacios, rellenalos", Toast.LENGTH_SHORT).show();
+                }else {
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String titulo = titulopubli.getText().toString();
+                            textoData.put("textos", titulo.toUpperCase());
+                            String descripcion = descripcionpubli.getText().toString();
+                            textoData.put("descripcion", descripcion);
+                            textoData.put("idUsuario",userIdUsuario);
+                            textoData.put("fecha", new Date());
 
 
-                        funkosRef.add(textoData)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
+                            funkosRef.add(textoData)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
 
 
-                                    }
-                                });
-                        dialog.dismiss();
-                        Intent intent = new Intent(getContext(), HomeActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                dialogButton2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(getContext(), HomeActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                dialog.show();
-
+                                        }
+                                    });
+                            dialog.dismiss();
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    dialogButton2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    dialog.show();
+                }
 
             }
         });
