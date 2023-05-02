@@ -2,6 +2,7 @@ package com.example.popfun;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -155,59 +157,84 @@ public class UsuarioFragment extends Fragment {
         });
 
         botonGuardarCambios.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                // Obtener la referencia de la colección "usuarios" en Firestore
-                CollectionReference usuariosRef = db.collection("users");
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.confirmarusuario);
+                Button dialogButton = dialog.findViewById(R.id.dialog_button);
+                Button dialogButton2 = dialog.findViewById(R.id.dialog_button2);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.fondo_degradado);
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = 800; // duplicar el ancho actual
+                lp.height = 800; // duplicar la altura actual
+                dialog.getWindow().setAttributes(lp);
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Obtener la referencia de la colección "usuarios" en Firestore
+                        CollectionReference usuariosRef = db.collection("users");
 
-                // Obtener el documento del usuario actual utilizando su ID
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                usuariosRef.document(userId).update("Nickname", nickname.getText().toString());
-                usuariosRef.document(userId).update("Last Name", lastname.getText().toString());
-                usuariosRef.document(userId).update("First Name", firstname.getText().toString());
-                usuariosRef.document(userId).update("Email", email.getText().toString())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getActivity(), "Cambios guardados correctamente", Toast.LENGTH_SHORT).show();
-                                // Obtener la referencia de la colección "usuarios" en Firestore
-                                CollectionReference usuariosRef = db.collection("users");
-
-                                // Obtener el documento del usuario actual utilizando su ID
-                                String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                                usuariosRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        // Obtener el documento del usuario actual utilizando su ID
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                        usuariosRef.document(userId).update("Nickname", nickname.getText().toString());
+                        usuariosRef.document(userId).update("Last Name", lastname.getText().toString());
+                        usuariosRef.document(userId).update("First Name", firstname.getText().toString());
+                        usuariosRef.document(userId).update("Email", email.getText().toString())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getActivity(), "Cambios guardados correctamente", Toast.LENGTH_SHORT).show();
+                                        // Obtener la referencia de la colección "usuarios" en Firestore
+                                        CollectionReference usuariosRef = db.collection("users");
 
-                                            if (document.exists()) {
-                                                // Obtener los datos del documento
+                                        // Obtener el documento del usuario actual utilizando su ID
+                                        String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                                        usuariosRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
 
-                                                String Nickname = document.getString("Nickname");
-                                                String FirstName = document.getString("First Name");
-                                                String LastName = document.getString("Last Name");
+                                                    if (document.exists()) {
+                                                        // Obtener los datos del documento
 
-                                                // Mostrar los datos en los EditText
-                                                texto.setText(FirstName+" "+LastName);
+                                                        String Nickname = document.getString("Nickname");
+                                                        String FirstName = document.getString("First Name");
+                                                        String LastName = document.getString("Last Name");
+
+                                                        // Mostrar los datos en los EditText
+                                                        texto.setText(FirstName+" "+LastName);
 
 
-                                            } else {
-                                                // El documento no existe
+                                                    } else {
+                                                        // El documento no existe
+                                                    }
+                                                } else {
+                                                    // Error al leer el documento
+                                                }
                                             }
-                                        } else {
-                                            // Error al leer el documento
-                                        }
+                                        });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), "Error al guardar cambios", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "Error al guardar cambios", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        dialog.dismiss();
+                    }
+                });
+                dialogButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
 

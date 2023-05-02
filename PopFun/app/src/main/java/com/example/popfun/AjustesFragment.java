@@ -3,6 +3,7 @@ package com.example.popfun;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,6 +34,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.checker.units.qual.s;
 
 import java.util.ArrayList;
 
@@ -125,26 +128,56 @@ public class AjustesFragment extends Fragment {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    // Borrar el usuario actual y todos sus datos
-                    user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                DocumentReference usuariosPhotoRef = db.collection("users").document(userId);
-                                usuariosPhotoRef.delete();
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                Log.d("TAG", "Borrado exitoso");
-                            } else {
-                                Log.d("TAG", "Error al borrar");
-                            }
+                Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.confirmarborrado);
+                Button dialogButton = dialog.findViewById(R.id.dialog_button);
+                Button dialogButton2 = dialog.findViewById(R.id.dialog_button2);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.fondo_degradado);
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = 800; // duplicar el ancho actual
+                lp.height = 800; // duplicar la altura actual
+                dialog.getWindow().setAttributes(lp);
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user != null) {
+                            // Borrar el usuario actual y todos sus datos
+                            user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            DocumentReference usuariosPhotoRef = db.collection("users").document(userId);
+                                                                            usuariosPhotoRef.delete();
+                                                                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                            startActivity(intent);
+
+                                                                            // Obtener el objeto SharedPreferences
+                                                                            SharedPreferences prefs = getContext().getSharedPreferences("myPrefs", getActivity().MODE_PRIVATE);
+                                                                            SharedPreferences.Editor editor = prefs.edit();
+                                                                            editor.putBoolean("isLogged", false);
+                                                                            editor.apply();
+                                                                            Log.d("TAG", "Borrado exitoso");
+                                                                        } else {
+                                                                            Log.d("TAG", "Error al borrar");
+                                                                        }
+                                                                    }
+                                                                }
+                            );
                         }
+                        dialog.dismiss();
                     }
-                    );
-                }
+                });
+                dialogButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
     }
