@@ -3,6 +3,7 @@ package com.example.popfun;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.text.TextUtils;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -66,10 +67,15 @@ public class MainActivity extends AppCompatActivity {
         botonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (emaillogin.toString().isEmpty() && passwordlogin.toString().isEmpty()){
-
-                }
-                else{
+                String email = emaillogin.getText().toString();
+                String password = passwordlogin.getText().toString();
+                if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)){
+                    Toast.makeText(MainActivity.this, "El email y contraseña no han sido introducidos", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(MainActivity.this, "El email no ha sido introducido", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(MainActivity.this, "La contraseña no ha sido introducida", Toast.LENGTH_SHORT).show();
+                } else{
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(emaillogin.getText().toString(),passwordlogin.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
